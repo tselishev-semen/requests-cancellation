@@ -42,7 +42,7 @@ export const useAsyncForAxios = (
             }
             return Promise.resolve();
         },
-        [asyncFunction, ...deps],
+        [asyncFunction, ...defaultParams, ...deps],
     );
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export const useAsyncForAxios = (
                 cancelTokenSourceRef.current.cancel('Destroy');
             }
         };
-    }, [asyncFunction, ...deps, immediate]);
+    }, [asyncFunction, ...defaultParams, ...deps, immediate]);
 
     return {execute, loading, value, error};
 };
@@ -104,7 +104,7 @@ export const useAsyncForFetch = (
             }
             return Promise.resolve();
         },
-        [asyncFunction, ...deps],
+        [asyncFunction, ...defaultParams, ...deps],
     );
 
     useEffect(() => {
@@ -119,7 +119,7 @@ export const useAsyncForFetch = (
                 abortControllerRef.current.abort();
             }
         };
-    }, [asyncFunction, ...deps, immediate]);
+    }, [asyncFunction, ...defaultParams, ...deps, immediate]);
 
     return {execute, loading, value, error};
 };

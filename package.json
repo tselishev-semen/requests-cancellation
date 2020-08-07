@@ -19,7 +19,7 @@
     "start-fe": "react-scripts start",
     "start": "netlify-lambda serve api & react-scripts start ",
     "start-api": "netlify-lambda serve api",
-    "build": "react-scripts build && netlify-lambda build api"
+    "build": "CI=false && react-scripts build && netlify-lambda build api"
   },
   "eslintConfig": {
     "extends": "react-app"
