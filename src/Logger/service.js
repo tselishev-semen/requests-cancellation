@@ -2,7 +2,7 @@ const messages = [];
 const listeners = [];
 
 export const addMessages = (str) => {
-    messages.unshift(`${new Date().getTime()}:${str}`);
+    messages.unshift(`${new Date().toUTCString()}:${str}`);
     listeners.forEach((cb) => cb(messages.slice()))
 };
 
