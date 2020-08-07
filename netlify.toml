@@ -1,4 +1,4 @@
 [build]
   command = "yarn run build"
   functions = "lambda" #  netlify-lambda reads this
-  publish = "dist/my-app"
+  publish = "build"
