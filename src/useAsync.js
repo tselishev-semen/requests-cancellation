@@ -2,7 +2,7 @@ import {useEffect, useState, useCallback, useRef} from 'react';
 import axios from 'axios';
 import {addMessages} from './Logger/service';
 
-export const useAsync = (
+export const useAsyncForAxios = (
     asyncFunction,
     defaultParams = {},
     deps = defaultParams,
@@ -45,16 +45,12 @@ export const useAsync = (
         [asyncFunction, ...deps],
     );
 
-    /**
-     * 1) cancel request when react comp was unmounted
-     * 2) cancel request when asyncFunction or deps or immediate were changed
-     */
     useEffect(() => {
         if (asyncFunction && immediate) {
             execute(...defaultParams);
         } else if (!asyncFunction) {
             // just for the demo purpose
-            addMessages(`Axios request with ${JSON.stringify(defaultParams)} is disabled`)
+            addMessages(`Axios request with ${JSON.stringify(defaultParams)} is not executed`)
         }
         return () => {
             if (cancelTokenSourceRef.current) {
@@ -111,16 +107,12 @@ export const useAsyncForFetch = (
         [asyncFunction, ...deps],
     );
 
-    /**
-     * 1) cancel request when react comp was unmounted
-     * 2) cancel request when asyncFunction or deps or immediate were changed
-     */
     useEffect(() => {
         if (asyncFunction && immediate) {
             execute(...defaultParams);
         } else if (!asyncFunction) {
             // just for the demo purpose
-            addMessages(`Fetch request with ${JSON.stringify(defaultParams)} is disabled`)
+            addMessages(`Fetch request with ${JSON.stringify(defaultParams)} is not executed`)
         }
         return () => {
             if (abortControllerRef.current) {
