@@ -52,7 +52,7 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
             }
             return Promise.resolve();
         },
-        [asyncFunction, ...deps],
+        [asyncFunction, ...defaultParams, ...deps],
     );
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
                 cancelTokenSourceRef.current.cancel('Destroy');
             }
         };
-    }, [asyncFunction, ...deps, immediate]);
+    }, [asyncFunction, ...defaultParams, ...deps, immediate]);
 
     return {execute, loading, value, error};
 };
