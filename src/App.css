@@ -1,0 +1,31 @@
+.app {
+    padding: 10px 20px;
+}
+
+.app__tabs {
+    display: flex
+}
+
+.app__toggle {
+    padding: 10px 30px;
+    background: #f6f6f6;
+}
+
+.app__toggle--active {
+    background: #3da333;
+    font-weight: bold;
+}
+
+.app__content {
+    height: 200px;
+    display: flex;
+}
+
+textarea {
+    width: 700px;
+    resize: none;
+}
+
+.flex {
+    display: flex;
+}
