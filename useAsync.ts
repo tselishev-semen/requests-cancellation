@@ -1,5 +1,5 @@
 /**
- * A canonical implementation of useAsync with cancellation.
+ * A production-ready useAsync with cancellation for axios.
  */
 
 import {useEffect, useState, useCallback, useRef} from 'react';
@@ -10,7 +10,7 @@ import axios, {CancelToken, CancelTokenSource} from 'axios';
  * @param asyncFunction - executes async request to the backend
  *    asyncFunction = null, is used for lazy/defer loading
  * @param defaultParams - params passed by default to asyncFunction
- * @param deps - array of variables. If one of them were changes, asyncFunction will be re-executed
+ * @param deps - array of variables. If one of them was changed, asyncFunction will be re-executed
  * @param immediate - to enable on-demand mode instead of the immediate execution on every render
  */
 export const useAsync = <Params extends Array<any | never> = [], Result = unknown>(
@@ -61,6 +61,7 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
         }
         return () => {
             if (cancelTokenSourceRef.current) {
+                // cancellation is happening here
                 cancelTokenSourceRef.current.cancel('Destroy');
             }
         };

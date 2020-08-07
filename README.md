@@ -2,7 +2,7 @@
 
 <h1>Modern cancellation patterns in react</h1>
 This is demo project written as a part of an
-[article](http://deadsimplejs.com/how-can-i-cancel-requests-in-react/). 
+http://deadsimplejs.com/how-can-i-cancel-requests-in-react/. 
 
 
 <h2>Scope</h2>
