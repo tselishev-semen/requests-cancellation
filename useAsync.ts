@@ -1,9 +1,5 @@
-/**
- * A production-ready useAsync with cancellation for axios.
- */
-
-import {useEffect, useState, useCallback, useRef} from 'react';
-import axios, {CancelToken, CancelTokenSource} from 'axios';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import axios, { CancelToken, CancelTokenSource } from 'axios';
 
 /**
  *
@@ -25,7 +21,7 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
     const cancelTokenSourceRef = useRef<CancelTokenSource | null>(null);
 
     const execute = useCallback(
-        (...params: Params) => {
+        (...params: Params | []) => {
             if (asyncFunction) {
                 setLoading(true);
                 setError(null);
@@ -36,8 +32,11 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
                 }
                 cancelTokenSourceRef.current = source;
                 // params are possible to define when immediate=false. In this case, the defaultParams can be overridden
-                return asyncFunction(cancelTokenSourceRef.current.token, ...(params.length ? params : defaultParams))
-                    .then((response) => setValue(response))
+                return asyncFunction(cancelTokenSourceRef.current.token, ...((params.length ? params : defaultParams) as Params))
+                    .then((response) => {
+                        setValue(response);
+                        return response;
+                    })
                     .catch((e) => {
                         if (source.token?.reason?.message !== 'Destroy') {
                             setValue(null);
@@ -52,20 +51,19 @@ export const useAsync = <Params extends Array<any | never> = [], Result = unknow
             }
             return Promise.resolve();
         },
-        [asyncFunction, ...defaultParams, ...deps],
+        [asyncFunction, ...deps],
     );
 
     useEffect(() => {
-        if (asyncFunction && immediate) {
+        if (immediate) {
             execute(...defaultParams);
         }
         return () => {
             if (cancelTokenSourceRef.current) {
-                // cancellation is happening here
                 cancelTokenSourceRef.current.cancel('Destroy');
             }
         };
-    }, [asyncFunction, ...defaultParams, ...deps, immediate]);
+    }, [execute, ...deps, immediate]);
 
     return {execute, loading, value, error};
 };
